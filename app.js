@@ -42,12 +42,20 @@ app.post("/kindergarden", (req, res) => {
   res.json(newKindergarden);
 });
 //put
-app.put("/kindergarden/:id", (req, res) => {
+app.put("/kindergarden/:center_code", (req, res) => {
   const kinderUpdate = kindergarden.find(
-    eachKindergarden => eachKindergarden.centre_code === req.params.id
+    eachKindergarden => eachKindergarden.centre_code === req.params.center_code
   );
   const updatedKinder = [...kinderUpdate, ...req.body];
 });
+//delete
+app.delete("/:center_code", (req, res) => {
+  kindergarden = kindergarden.filter(
+    eachKindergarden => eachKindergarden.centre_code !== req.params.center_code
+  );
+  res.json("kindergarten deleted is deleted");
+});
+
 //middleware
 app.use((req, res, next) => {
   if (res.status === 404) {
