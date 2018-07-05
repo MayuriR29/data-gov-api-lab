@@ -2,6 +2,10 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger-sample.json");
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 let kindergarden = require("./utils/data.json");
 
 app.use(express.json());
@@ -27,17 +31,20 @@ app.get("/kindergarden/search", (req, res) => {
 //post
 app.post("/kindergarden", (req, res) => {
   let newKindergarden = {
-    ...res.body
+    ...req.body
   };
   kindergarden = [...kindergarden, newKindergarden];
-  console.log("new", res.body);
   res.json(newKindergarden);
 });
+//put
 app.put("/kindergarden/:id", (req, res) => {
   const kinderUpdate = kindergarden.find(
-    eachKindergarden => eachKindergarden.center
+    eachKindergarden => eachKindergarden.centre_code===req.params.id
   );
+ const updatedKinder=[...kinderUpdate,...req.body];
+
 });
+//middleware
 app.use((req, res, next) => {
   if (res.status === 404) {
     res.send();
