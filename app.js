@@ -13,9 +13,9 @@ app.use(express.json());
 app.get("/kindergarden", (req, res) => {
   res.json(kindergarden);
 });
-app.get("/kindergarden/:id", (req, res) => {
+app.get("/kindergarden/:center_code", (req, res) => {
   const reqKinder = kindergarden.find(
-    eachKinder => eachKinder.centre_code === req.params.id
+    eachKinder => eachKinder.centre_code === req.params.center_code
   );
   res.json(reqKinder);
 });
