@@ -13,7 +13,12 @@ app.use(express.json());
 app.get("/kindergarden", (req, res) => {
   res.json(kindergarden);
 });
-// app.get("/kindergarden/:id", () => {});
+app.get("/kindergarden/:id", (req, res) => {
+  const reqKinder = kindergarden.find(
+    eachKinder => eachKinder.centre_code === req.params.id
+  );
+  res.json(reqKinder);
+});
 app.get("/kindergarden/search", (req, res) => {
   let receivedLevel = req.query.levels;
   let receivedLang = req.query.second_language;
@@ -39,10 +44,9 @@ app.post("/kindergarden", (req, res) => {
 //put
 app.put("/kindergarden/:id", (req, res) => {
   const kinderUpdate = kindergarden.find(
-    eachKindergarden => eachKindergarden.centre_code===req.params.id
+    eachKindergarden => eachKindergarden.centre_code === req.params.id
   );
- const updatedKinder=[...kinderUpdate,...req.body];
-
+  const updatedKinder = [...kinderUpdate, ...req.body];
 });
 //middleware
 app.use((req, res, next) => {
