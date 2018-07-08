@@ -13,15 +13,12 @@ app.use(express.json());
 app.get("/kindergarden", (req, res) => {
   res.json(kindergarden);
 });
-app.get("/kindergarden/:center_code", (req, res) => {
-  const reqKinder = kindergarden.find(
-    eachKinder => eachKinder.centre_code === req.params.center_code
-  );
-  res.json(reqKinder);
-});
+//GET by query parameters
 app.get("/kindergarden/search", (req, res) => {
   let receivedLevel = req.query.levels;
   let receivedLang = req.query.second_language;
+  console.log("in /kindergarden/search-->");
+  // console.log("keys", res.body.keys);
   const centerDetails = kindergarden
     .filter(
       eachCenter =>
@@ -31,15 +28,34 @@ app.get("/kindergarden/search", (req, res) => {
       newArr =>
         receivedLang ? newArr.second_languages_offered === receivedLang : true
     );
-  res.json(centerDetails);
+
+  if (centerDetails.length > 0) {
+    res.json(centerDetails);
+    res.status(200).json();
+  } else {
+    res.status(204).json({ message: "No such data exists,try other input" });
+  }
 });
+
+//GET by center_code
+app.get("/kindergarden/:center_code", (req, res) => {
+  const reqKinder = kindergarden.find(
+    eachKinder => eachKinder.centre_code === req.params.center_code
+  );
+  res.json(reqKinder);
+});
+
 //post
-app.post("/kindergarden", (req, res) => {
-  let newKindergarden = {
-    ...req.body
-  };
-  kindergarden = [...kindergarden, newKindergarden];
-  res.json(newKindergarden);
+app.post("/kindergarden", (req, res, next) => {
+  if (req.body.centre_code) {
+    let newKindergarden = {
+      ...req.body
+    };
+    kindergarden = [...kindergarden, newKindergarden];
+    res.status(201).json();
+  }
+  next();
+  res.status(400).json();
 });
 //put
 app.put("/kindergarden/:center_code", (req, res) => {

@@ -2,30 +2,38 @@
   "openapi": "3.0.0",
   "info": {
     "version": "1.0.0",
-    "title": "Your API name"
+    "title": "Kindergarden API"
   },
   "servers": [
     {
-      "url": "https://api-url.com"
+      "url": "https://serene-virgin-islands-65505.herokuapp.com/"
     }
   ],
   "paths": {
-    "/resource1": {
+    "/kindergarden": {
       "get": {
-        "summary": "List all resource1",
+        "summary": "List all kindergartens",
         "tags": ["resource1"],
         "responses": {
           "200": {
-            "description": "An array of blog posts",
+            "description": "An array of kindergartens",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
                     "example": {
-                      "id": 5,
-                      "name": "hello",
-                      "flavour": "margarita"
+                      "centre_code": "KG1002",
+                      "centre_name":
+                        "PCF SPARKLETOTS PRESCHOOL @ TANJONG PAGAR-TIONG BAHRU Blk 1E (KN)",
+                      "levels_offered": "Playgroup",
+                      "programme_hours": "na",
+                      "second_languages_offered": "Chinese",
+                      "vacancy": "contactcentre",
+                      "registration_fee": "16.05",
+                      "fees_sc": "na",
+                      "fee_pr": "na",
+                      "last_updated": "25-Oct-17"
                     }
                   }
                 }
@@ -35,7 +43,7 @@
         }
       },
       "post": {
-        "summary": "Create a resource",
+        "summary": "Add a new Kindergarten",
         "tags": ["resource1"],
         "responses": {
           "201": {
@@ -47,16 +55,16 @@
         }
       }
     },
-    "/resource1/{id}": {
+    "/kindergarden/{center_code}": {
       "get": {
-        "summary": "Info for a specific resource",
+        "summary": "Info for a specific kindergarten",
         "tags": ["resource1"],
         "parameters": [
           {
-            "name": "id",
+            "name": "center_code",
             "in": "path",
             "required": true,
-            "description": "The id of the resource to retrieve",
+            "description": "The center code",
             "schema": {
               "type": "number"
             }
@@ -83,7 +91,7 @@
         "tags": ["resource1"],
         "parameters": [
           {
-            "name": "id",
+            "name": "center_code",
             "in": "path",
             "required": true,
             "description": "The id of the resource to update",
